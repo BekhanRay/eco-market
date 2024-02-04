@@ -11,19 +11,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-
 import config
+import decouple
 
-PRODUCTION = config.PRODUCTION
+PRODUCTION = decouple.config('PRODUCTION', default=False, cast=bool)
 
-if PRODUCTION:
-    from .prod import *
-else:
+if not PRODUCTION:
     from .local import *
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+else:
+    from .prod import *
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +39,7 @@ THEME_PARTY_APPS = [
     'django_filters',
     'drf_spectacular',
     'django_summernote',
+    'django_re'
     # 'celery',
 ]
 
@@ -199,3 +196,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL="user_app.CustomUser"
 INTERNAL_IPS = ["127.0.0.1"]
+

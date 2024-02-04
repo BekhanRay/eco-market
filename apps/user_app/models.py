@@ -1,18 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+from apps.user_app.managers import CustomUserManager
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=50, unique=True)
+    username = models.CharField(max_length=50, unique=False, default='user', verbose_name='username')
     phone = models.CharField(max_length=20, unique=True)
     email = models.EmailField(max_length=254, unique=True)
     address = models.CharField(max_length=254, unique=False)
 
-    USERNAME_FIELD = 'username'
+    password = models.CharField(max_length=128, verbose_name='password')
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
-    REQUIRED_FIELDS = ['email', 'phone']
+    USERNAME_FIELD = 'email'
 
-    # @property
-    # def is_staff(self):
-    #     """Is the user a member of staff?"""
-    #     return self.is_superuser
+    objects = CustomUserManager()
+
+    REQUIRED_FIELDS = ['password',]
