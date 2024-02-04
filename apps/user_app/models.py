@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from .managers import *
 
 from apps.user_app.managers import CustomUserManager
 
@@ -9,6 +10,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(max_length=20, unique=True)
     email = models.EmailField(max_length=254, unique=True)
     address = models.CharField(max_length=254, unique=False)
+    is_staff = models.BooleanField(default=False)
 
     password = models.CharField(max_length=128, verbose_name='password')
     is_staff = models.BooleanField(default=False)
@@ -19,3 +21,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     REQUIRED_FIELDS = ['password',]
+

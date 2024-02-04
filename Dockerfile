@@ -9,4 +9,6 @@ EXPOSE 9000
 
 COPY . .
 
-RUN pip3 install --upgrade pip && pip3 install --no-cache-dir -r requirements/prod.txt && python3 manage.py collectstatic --noinput
+RUN pip3 install --upgrade pip && pip3 install --no-cache-dir -r requirements/prod.txt
+
+RUN python3 manage.py collectstatic --noinput
