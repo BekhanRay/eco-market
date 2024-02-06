@@ -1,3 +1,6 @@
+import uuid
+
+from apps.user_app.models import CustomUser
 from django.db import models
 from django_resized import ResizedImageField
 
@@ -39,6 +42,8 @@ class Type(models.Model):
 
     image = ResizedImageField(upload_to=upload_to, verbose_name='Type photo path')
 
+    def __str__(self):
+        return self.name
 
 # ___________________________Product_________________________________________________________
 
@@ -46,7 +51,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='product name', unique=True)
     description = models.CharField(max_length=254, verbose_name='description')
     price = models.FloatField(verbose_name='Price')
-    amount = models.IntegerField(verbose_name='amount of product')
+    amount = models.IntegerField(verbose_name='quantity of product')
 
     type_id = models.ForeignKey(Type, on_delete=models.DO_NOTHING)
 
@@ -55,7 +60,7 @@ class Product(models.Model):
         verbose_name_plural = 'Products'
 
     def __str__(self):
-        return self.name
+        return f'{self.name},{self.price}'
 
     @staticmethod
     def is_valid(product_id):
@@ -78,3 +83,25 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f'Category/{self.product.type_id.name}{self.product.name}/{self.image.verbose_name}'
+
+
+# ____________________________________CART_______________________________________
+class Cart(models.Model):
+    unique_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Cart for {self.user or 'Anonymous'}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.quantity} of {self.product.name}"
+

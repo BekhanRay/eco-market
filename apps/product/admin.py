@@ -3,6 +3,9 @@ from .models import *
 
 admin.site.register(Category)
 admin.site.register(Type)
+admin.site.register(Cart)
+
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
