@@ -34,9 +34,11 @@ class TypeSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    images = ProductImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Product
-        fields = ("id", "name", "description", "price", "quantity")
+        fields = ("id", "name", "description", "price", "amount", "type_id", "images")
 
 
 class CartItemSerializer(serializers.ModelSerializer):

@@ -9,5 +9,8 @@ urlpatterns = [
     path('product/<int:pk>/', ProductDetailView.as_view()),
     path('category/', CategoryListView.as_view(), name='category'),
     path('cart/', CartView.as_view(), name='cart'),
+    path('cart/update/', update_cart_item, name='update_cart'),
+    path('cart/add/', add_to_cart, name='add_to_cart'),
+    path('cart/remove/', remove_from_cart, name='remove_from_cart'),
     path('type/', TypeListView.as_view(), name='type'),
     ] + static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)
