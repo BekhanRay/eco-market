@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from apps.product.models import *
@@ -18,15 +19,15 @@ class ProductListView(ListAPIView):
         return Response(serializer.data)
 
 
-class ProductDetailView(ListAPIView):
+class ProductDetailView(generics.ListAPIView):
     
-    queryset = Product.objects.all()
+    queryset = Product.objects.get()
     serializer_class = ProductSerializer
 
-    def list(self, request):
-        qs = self.get_queryset()
-        serializer = self.get_serializer(qs, many=True)
-        return Response(serializer.data)
+    # def list(self, request):
+    #     qs = self.get_queryset()
+    #     serializer = self.get_serializer(qs, many=True)
+    #     return Response(serializer.data)
 
 
 class CategoryListView(ListAPIView):
@@ -51,10 +52,11 @@ class TypeListView(ListAPIView):
         return Response(serializer.data)
 
 
-@login_required
+# @login_required
 class CartView(generics.RetrieveUpdateAPIView):
-    queryset = Cart.objects.filter(user=None)
+    queryset = Cart.objects.filter()
     serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         cart, _ = Cart.objects.get_or_create(user=self.request.user)

@@ -83,7 +83,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DATETIME_FORMAT': '%d.%m.%Y %H:%M:%S',
     'DEFAULT_FILTER_BACKENDS': [
