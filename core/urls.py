@@ -28,11 +28,13 @@ urlpatterns = [
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/redoc/", SpectacularRedocView.as_view(), name="redoc"),
     path("api/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
-]
+    # apps url
+    path("api/v1/", include('apps.product.urls')),
+    path("api/v1/", include('apps.user_app.urls')),
+] + static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)
 
 if base.DEBUG:
     import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
     ]
-    urlpatterns += static(base.MEDIA_URL, document_root=base.MEDIA_ROOT)

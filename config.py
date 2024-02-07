@@ -1,8 +1,8 @@
 from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG')
-PRODUCTION = config('PRODUCTION')
+DEBUG = config('DEBUG', cast=bool, default=True)
+PRODUCTION = config('PRODUCTION', cast=bool, default=False)
 
 POSTGRES_DB = config('PG_NAME')
 POSTGRES_USER = config('PG_USER')

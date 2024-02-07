@@ -11,3 +11,5 @@ django-filter==23.5
 django-jazzmin==2.6.0
 django-summernote==0.8.20.0
 django-resized==1.0.2
+django-resized==1.0.2
+djangorestframework-simplejwt
