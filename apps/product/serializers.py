@@ -3,31 +3,36 @@ from rest_framework import serializers
 from apps.product.models import *
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-
-class ProductImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductImage
-        fields = '__all__'
-
-
 class CategoryImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
 
 
+class CategorySerializer(serializers.ModelSerializer):
+    images = CategoryImageSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductImage
+        fields = '__all__'
+
+
 class CartSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Cart
         fields = '__all__'
 
 
 class TypeSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Type
         fields = '__all__'

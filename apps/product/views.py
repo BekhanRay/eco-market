@@ -13,10 +13,10 @@ class ProductListView(ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    def list(self, request):
-        qs = self.get_queryset()
-        serializer = self.get_serializer(qs, many=True)
-        return Response(serializer.data)
+    # def list(self, request):
+    #     qs = self.get_queryset()
+    #     serializer = self.get_serializer(qs, many=True)
+    #     return Response(serializer.data)
 
 
 class ProductDetailView(generics.ListAPIView):
@@ -35,10 +35,10 @@ class CategoryListView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-    def list(self, request):
-        qs = self.get_queryset()
-        serializer = self.get_serializer(qs, many=True)
-        return Response(serializer.data)
+    # def list(self, request):
+    #     qs = self.get_queryset()
+    #     serializer = self.get_serializer(qs, many=True)
+    #     return Response(serializer.data)
 
 
 class TypeListView(ListAPIView):
@@ -46,10 +46,10 @@ class TypeListView(ListAPIView):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
 
-    def list(self, request):
-        qs = self.get_queryset()
-        serializer = self.get_serializer(qs, many=True)
-        return Response(serializer.data)
+    # def list(self, request):
+    #     qs = self.get_queryset()
+    #     serializer = self.get_serializer(qs, many=True)
+    #     return Response(serializer.data)
 
 
 # @login_required

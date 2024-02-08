@@ -45,6 +45,7 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
 # ___________________________Product_________________________________________________________
 
 class Product(models.Model):
