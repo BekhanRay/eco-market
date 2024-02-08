@@ -80,10 +80,10 @@ class ProductImage(models.Model):
         """
         return f'product/{self.product.name}/{filename}'
 
-    image = ResizedImageField(upload_to=upload_to, verbose_name='photo path')
+    image = ResizedImageField(upload_to=upload_to)
 
     def __str__(self):
-        return f'Category/{self.product.type_id.name}{self.product.name}/{self.image.verbose_name}'
+        return f'Category/{self.product.type_id.name}{self.product.name}'
 
 
 # ____________________________________CART_______________________________________
@@ -101,7 +101,7 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, null=True)
     quantity = models.PositiveIntegerField(default=1)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.quantity} of {self.product.name}"
