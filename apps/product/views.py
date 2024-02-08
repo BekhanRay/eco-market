@@ -19,21 +19,14 @@ class ProductListView(APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    def get(self, request, format=None):
+    def get(self, request):
         queryset = self.queryset.all()
         return Response(self.serializer_class(queryset, many=True).data, status=status.HTTP_200_OK)
-    # def list(self):
-    #     qs = self.get_queryset()
-    #     serializer = self.get_serializer(qs, many=True)
-    #     return Response(serializer.data)
 
 
 class ProductDetailView(APIView):
     serializer_class = ProductSerializer
     lookup_field = 'id'
-
-    def get_queryset(self):
-        return Product.objects.prefetch_related("images")
 
     def get(self, request, *args, **kwargs):
         try:
@@ -43,7 +36,7 @@ class ProductDetailView(APIView):
                 serializer = self.serializer_class(product_object)
                 return Response(serializer.data)
         except Product.DoesNotExist:
-            queryset = self.get_queryset()
+            queryset = Product.objects.prefetch_related("images")
             serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
 
