@@ -4,30 +4,50 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from apps.product.models import *
 from apps.product.serializers import *
 
 
-class ProductListView(ListAPIView):
+class ProductImageList(ListAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+
+
+class ProductListView(APIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    # def list(self, request):
+    def get(self, request, format=None):
+        queryset = self.queryset.all()
+        return Response(self.serializer_class(queryset, many=True).data, status=status.HTTP_200_OK)
+    # def list(self):
     #     qs = self.get_queryset()
     #     serializer = self.get_serializer(qs, many=True)
     #     return Response(serializer.data)
 
 
-class ProductDetailView(generics.ListAPIView):
-    
-    queryset = Product.objects.get()
+class ProductDetailView(APIView):
     serializer_class = ProductSerializer
+    lookup_field = 'id'
 
-    # def list(self, request):
-    #     qs = self.get_queryset()
-    #     serializer = self.get_serializer(qs, many=True)
-    #     return Response(serializer.data)
+    def get_queryset(self):
+        return Product.objects.prefetch_related("images")
+
+    def get(self, request, *args, **kwargs):
+        try:
+            id = self.kwargs["id"]
+            if id is not None:
+                product_object = Product.objects.get(id=id)
+                serializer = self.serializer_class(product_object)
+                return Response(serializer.data)
+        except Product.DoesNotExist:
+            queryset = self.get_queryset()
+            serializer = self.serializer_class(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryListView(ListAPIView):
@@ -35,10 +55,10 @@ class CategoryListView(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-    # def list(self, request):
-    #     qs = self.get_queryset()
-    #     serializer = self.get_serializer(qs, many=True)
-    #     return Response(serializer.data)
+    def list(self):
+        qs = self.get_queryset()
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
 
 
 class TypeListView(ListAPIView):
@@ -46,10 +66,10 @@ class TypeListView(ListAPIView):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
 
-    # def list(self, request):
-    #     qs = self.get_queryset()
-    #     serializer = self.get_serializer(qs, many=True)
-    #     return Response(serializer.data)
+    def list(self):
+        qs = self.get_queryset()
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
 
 
 # @login_required

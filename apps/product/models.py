@@ -63,9 +63,9 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name},{self.price}'
 
-    @staticmethod
-    def is_valid(product_id):
-        return Product.objects.filter(id=product_id).exists()
+    # @staticmethod
+    # def is_valid(product_id):
+    #     return Product.objects.filter(id=product_id).exists()
 
 
 # ___________________________Product_________________________________________________________
@@ -99,7 +99,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, null=True)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
