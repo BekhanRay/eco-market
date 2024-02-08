@@ -50,7 +50,7 @@ class Type(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='product name', unique=True)
-    description = models.CharField(max_length=254, verbose_name='description')
+    description = models.TextField(max_length=254, verbose_name='description')
     price = models.FloatField(verbose_name='Price')
     amount = models.IntegerField(verbose_name='quantity of product')
 
