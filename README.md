@@ -8,6 +8,19 @@ To run the code at home:
 ```
   git clone https://github.com/BekhanRay/eco-market.git
 ```
+write your own .env :
+```
+SECRET_KEY=Your_secret_key
+DEBUG=True
+PRODUCTION=False
+
+
+PG_NAME=examle_db
+PG_USER=your_user
+PG_PASSWORD=password
+PG_HOST=postgres
+PG_PORT=5432
+```
 enter :
 ```
   cd eco-market/
