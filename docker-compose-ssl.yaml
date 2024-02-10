@@ -16,8 +16,8 @@ services:
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/media
     environment:
-      - VIRTUAL_HOST=gulsdem.pp.ua
-      - LETSENCRYPT_HOST=gulsdem.pp.ua
+      - VIRTUAL_HOST=example.com
+      - LETSENCRYPT_HOST=example.com
 
   postgres:
     image: postgres
